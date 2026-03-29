@@ -4,9 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "build": "prisma migrate deploy && next build",
+    "start": "next start -p ${PORT:-3000}",
+    "lint": "next lint",
+    "postinstall": "prisma generate",
+    "db:migrate": "prisma migrate deploy",
+    "db:seed": "npx tsx prisma/seed.ts",
+    "db:studio": "prisma studio",
+    "hash-password": "node -e \"const b=require('bcryptjs');process.argv[2]?console.log(b.hashSync(process.argv[2],12)):console.log('Usage: npm run hash-password <password>');\" --"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

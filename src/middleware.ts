@@ -55,6 +55,11 @@ export async function middleware(request: NextRequest) {
     }
   }
 
+  // Skip rate limit for health check
+  if (pathname === "/api/health") {
+    return NextResponse.next();
+  }
+
   // Rate limit: public API (60 req/min per IP)
   if (pathname.startsWith("/api/deals") || pathname.startsWith("/api/categories")) {
     if (!rateLimit(`api:${ip}`, 60, 60_000)) {
