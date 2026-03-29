@@ -1,11 +1,16 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { deviceTypeFromUA, hashIP } from "@/lib/utils";
+import { isValidRedirectUrl } from "@/lib/sanitize";
 
 export async function GET(request: NextRequest, { params }: { params: { slug: string } }) {
   const deal = await prisma.deal.findUnique({ where: { slug: params.slug } });
 
   if (!deal) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  if (!isValidRedirectUrl(deal.referralUrl)) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
@@ -18,11 +23,11 @@ export async function GET(request: NextRequest, { params }: { params: { slug: st
       prisma.click.create({
         data: {
           dealId: deal.id,
-          referrerUrl: referrer || null,
-          userAgent: ua.substring(0, 500),
+          referrerUrl: referrer ? new URL(referrer).origin : null,
+          userAgent: null,
           ipHash: hashIP(ip),
           deviceType: deviceTypeFromUA(ua),
-          sourcePage: referrer || null,
+          sourcePage: referrer ? new URL(referrer).pathname : null,
         },
       }),
       prisma.deal.update({
@@ -31,8 +36,11 @@ export async function GET(request: NextRequest, { params }: { params: { slug: st
       }),
     ]);
   } catch (e) {
-    console.error("Click tracking error:", e);
+    const msg = e instanceof Error ? e.message : "Unknown";
+    console.error("Click tracking error:", msg);
   }
 
-  return NextResponse.redirect(deal.referralUrl, { status: 302 });
+  const response = NextResponse.redirect(deal.referralUrl, { status: 302 });
+  response.headers.set("Referrer-Policy", "no-referrer");
+  return response;
 }

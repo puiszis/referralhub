@@ -4,16 +4,22 @@ import { NextResponse } from "next/server";
 export async function GET() {
   const categories = await prisma.category.findMany({
     orderBy: { sortOrder: "asc" },
+    include: {
+      _count: {
+        select: { deals: true },
+      },
+    },
   });
 
-  const withCounts = await Promise.all(
-    categories.map(async (cat) => ({
-      ...cat,
-      dealCount: await prisma.deal.count({
-        where: { categoryId: cat.id, status: "active" },
-      }),
-    }))
-  );
+  const result = categories.map((cat) => ({
+    id: cat.id,
+    name: cat.name,
+    slug: cat.slug,
+    description: cat.description,
+    sortOrder: cat.sortOrder,
+    iconEmoji: cat.iconEmoji,
+    dealCount: cat._count.deals,
+  }));
 
-  return NextResponse.json(withCounts);
+  return NextResponse.json(result);
 }

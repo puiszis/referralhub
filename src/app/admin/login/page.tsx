@@ -74,11 +74,7 @@ export default function LoginPage() {
           </button>
         </form>
 
-        {process.env.NODE_ENV === "development" && (
-          <p className="text-center text-xs text-earth-400 mt-4">
-            Dev default: admin@referralhub.com / admin123
-          </p>
-        )}
+
       </div>
     </div>
   );

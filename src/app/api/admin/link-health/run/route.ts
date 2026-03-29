@@ -1,8 +1,13 @@
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/admin-auth";
 import { NextResponse } from "next/server";
+import { isSafeExternalUrl } from "@/lib/sanitize";
 
 async function checkLink(url: string): Promise<{ statusCode: number; responseTimeMs: number; isHealthy: boolean; errorMessage: string | null }> {
+  if (!isSafeExternalUrl(url)) {
+    return { statusCode: 0, responseTimeMs: 0, isHealthy: false, errorMessage: "URL blocked by security policy (internal/private network)" };
+  }
+
   const start = Date.now();
   try {
     const controller = new AbortController();
@@ -11,6 +16,7 @@ async function checkLink(url: string): Promise<{ statusCode: number; responseTim
       method: "HEAD",
       redirect: "follow",
       signal: controller.signal,
+      headers: { "User-Agent": "ReferralHub-LinkChecker/1.0" },
     });
     clearTimeout(timeout);
     const responseTimeMs = Date.now() - start;

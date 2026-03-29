@@ -42,10 +42,10 @@ export function deviceTypeFromUA(ua: string | null): string {
 }
 
 export function hashIP(ip: string): string {
-  // Simple but non-reversible hash for IP anonymization (server-side only)
+  const salt = process.env.IP_HASH_SALT || "default-dev-salt";
   let h1 = 0xdeadbeef;
   let h2 = 0x41c6ce57;
-  const str = ip + "referralhub-salt";
+  const str = ip + salt;
   for (let i = 0; i < str.length; i++) {
     const ch = str.charCodeAt(i);
     h1 = Math.imul(h1 ^ ch, 2654435761);
