@@ -1,0 +1,228 @@
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+async function main() {
+  const categories = await Promise.all([
+    prisma.category.upsert({
+      where: { slug: "outdoor-gear" },
+      update: {},
+      create: { name: "Outdoor Gear", slug: "outdoor-gear", description: "Golf simulators, hunting equipment, and outdoor recreation gear.", iconEmoji: "🏕️", sortOrder: 1 },
+    }),
+    prisma.category.upsert({
+      where: { slug: "home-products" },
+      update: {},
+      create: { name: "Home Products", slug: "home-products", description: "Smart home devices, furniture, kitchen appliances, and more.", iconEmoji: "🏠", sortOrder: 2 },
+    }),
+    prisma.category.upsert({
+      where: { slug: "tech" },
+      update: {},
+      create: { name: "Tech", slug: "tech", description: "Gadgets, software, and technology deals.", iconEmoji: "💻", sortOrder: 3 },
+    }),
+    prisma.category.upsert({
+      where: { slug: "finance" },
+      update: {},
+      create: { name: "Finance", slug: "finance", description: "Credit cards, banking bonuses, and financial tools.", iconEmoji: "💰", sortOrder: 4 },
+    }),
+    prisma.category.upsert({
+      where: { slug: "lifestyle" },
+      update: {},
+      create: { name: "Lifestyle", slug: "lifestyle", description: "Fitness, food, travel, and everyday lifestyle deals.", iconEmoji: "✨", sortOrder: 5 },
+    }),
+  ]);
+
+  const deals = [
+    {
+      title: "Garmin Fenix 8 — $50 Off Your First Order",
+      slug: "garmin-fenix-8-referral",
+      storeName: "Garmin",
+      storeUrl: "https://www.garmin.com",
+      referralUrl: "https://www.garmin.com/?ref=Rhub50",
+      referralCode: "RHUB50",
+      categoryId: categories[0].id,
+      descriptionShort: "Get $50 off the Garmin Fenix 8 smartwatch — built for the outdoors with solar charging and topo maps.",
+      descriptionLong: "The Garmin Fenix 8 is the ultimate outdoor smartwatch. With solar charging that lasts weeks, built-in topographic maps, and multi-band GPS accuracy, it's the watch I wear every single day — whether I'm on the golf course or out in the field.\n\nI've been using Garmin watches for over five years now, and the Fenix 8 is by far the best they've made. The battery life alone is a game-changer. I get about 3 weeks between charges with normal use, and the solar panel extends that even further.\n\nUse my referral link to get $50 off your purchase. Garmin's referral program gives you the discount at checkout automatically.",
+      creditType: "$50 off for you, $25 credit for me",
+      creditValueUser: 50,
+      creditValueOperator: 25,
+      imageEmoji: "⌚",
+      tags: JSON.stringify(["garmin", "watches", "outdoor", "gps", "solar"]),
+      featured: true,
+      status: "active",
+      source: "manual",
+      clickCount: 147,
+    },
+    {
+      title: "Traeger Ironwood XL — Free Shipping + Bonus Pellets",
+      slug: "traeger-ironwood-xl-referral",
+      storeName: "Traeger",
+      storeUrl: "https://www.traeger.com",
+      referralUrl: "https://www.traeger.com/?ref=RHUB",
+      referralCode: "RHUB",
+      categoryId: categories[0].id,
+      descriptionShort: "Score free shipping and a bonus bag of pellets with the Traeger Ironwood XL smart grill.",
+      descriptionLong: "If you're serious about outdoor cooking, the Traeger Ironwood XL is the grill to get. WiFIRE technology lets you control temperature from your phone, and the D2 drivetrain gives you consistent smoke flavor every time.\n\nI've cooked everything from brisket to pizza on mine, and it handles it all. The super smoke mode adds extra flavor at lower temperatures — perfect for Texas-style BBQ.\n\nThrough my referral link, you'll get free shipping (normally $100+) and Traeger throws in a free bag of their signature hardwood pellets.",
+      creditType: "Free shipping for you, $50 credit for me",
+      creditValueUser: 100,
+      creditValueOperator: 50,
+      imageEmoji: "🔥",
+      tags: JSON.stringify(["traeger", "grills", "bbq", "outdoor-cooking", "smoking"]),
+      featured: true,
+      status: "active",
+      source: "manual",
+      clickCount: 89,
+    },
+    {
+      title: "SkyTrak+ Golf Simulator — $100 Off Launch Monitor",
+      slug: "skytrak-plus-golf-simulator",
+      storeName: "SkyTrak",
+      storeUrl: "https://www.skytrak.com",
+      referralUrl: "https://www.skytrak.com/?ref=RHUB100",
+      referralCode: "RHUB100",
+      categoryId: categories[0].id,
+      descriptionShort: "Get $100 off the SkyTrak+ launch monitor — the best home golf simulator under $3,000.",
+      descriptionLong: "The SkyTrak+ is what I use in my garage golf setup, and it's been worth every penny. Accurate ball tracking, realistic course play, and it connects to all the major simulation software.\n\nI compared it against the Mevo+ and the Flightscope — for the price, the SkyTrak+ can't be beat for a home setup. The accuracy is within 1-2 yards of my on-course numbers.\n\nMy referral link gets you $100 off the launch monitor. They also run seasonal bundle deals where you get the software subscription included.",
+      creditType: "$100 off for you, $50 credit for me",
+      creditValueUser: 100,
+      creditValueOperator: 50,
+      imageEmoji: "⛳",
+      tags: JSON.stringify(["golf", "simulator", "launch-monitor", "indoor-golf"]),
+      featured: true,
+      status: "active",
+      source: "manual",
+      clickCount: 213,
+    },
+    {
+      title: "Amex Platinum Card — 150,000 Bonus Points",
+      slug: "amex-platinum-150k-bonus",
+      storeName: "American Express",
+      storeUrl: "https://www.americanexpress.com",
+      referralUrl: "https://americanexpress.com/refer/RHUB",
+      referralCode: "RHUB",
+      categoryId: categories[3].id,
+      descriptionShort: "Earn 150,000 Membership Rewards points with the Amex Platinum — one of the best welcome bonuses available.",
+      descriptionLong: "The Amex Platinum is my daily driver card. Between the airport lounge access, the $200 airline fee credit, the $200 Uber credit, and the $240 entertainment credit, the $695 annual fee practically pays for itself.\n\nThe current welcome bonus of 150,000 points after spending $8,000 in 6 months is one of the highest offers they've had. That's worth at least $1,500 in travel through Amex's portal, or more if you transfer to airline partners.\n\nUsing my referral link ensures you get the full 150K offer. I earn 30,000 points when you're approved — it's a win-win.",
+      creditType: "150K points for you, 30K points for me",
+      creditValueUser: 1500,
+      creditValueOperator: 300,
+      imageEmoji: "💳",
+      tags: JSON.stringify(["credit-card", "amex", "travel", "points", "lounge-access"]),
+      featured: true,
+      status: "active",
+      source: "manual",
+      clickCount: 342,
+    },
+    {
+      title: "Ecobee Smart Thermostat Premium — $20 Referral Credit",
+      slug: "ecobee-smart-thermostat-referral",
+      storeName: "Ecobee",
+      storeUrl: "https://www.ecobee.com",
+      referralUrl: "https://www.ecobee.com/?ref=RHUB20",
+      referralCode: "RHUB20",
+      categoryId: categories[1].id,
+      descriptionShort: "Save $20 on the Ecobee Smart Thermostat Premium with built-in air quality monitoring.",
+      descriptionLong: "I switched from a Nest to the Ecobee Premium last year and haven't looked back. The built-in air quality sensor is great for Texas summers when you want to know when to keep windows closed.\n\nThe SmartSensor for rooms means it actually heats/cools based on the rooms you're using, not just where the thermostat is mounted. This alone saved me about 15% on my electric bill.\n\nGrab $20 off through my referral link. The thermostat installs in about 30 minutes if you have a C-wire.",
+      creditType: "$20 off for you, $20 credit for me",
+      creditValueUser: 20,
+      creditValueOperator: 20,
+      imageEmoji: "🌡️",
+      tags: JSON.stringify(["smart-home", "thermostat", "energy", "ecobee"]),
+      featured: false,
+      status: "active",
+      source: "manual",
+      clickCount: 56,
+    },
+    {
+      title: "Notion — Free Pro Plan for 3 Months",
+      slug: "notion-pro-plan-referral",
+      storeName: "Notion",
+      storeUrl: "https://www.notion.so",
+      referralUrl: "https://www.notion.so/?ref=RHUB",
+      referralCode: "RHUB",
+      categoryId: categories[2].id,
+      descriptionShort: "Get 3 months of Notion Pro free — the all-in-one workspace for notes, docs, and project management.",
+      descriptionLong: "Notion is how I organize literally everything — this blog included. Deal tracking, content calendars, personal notes, you name it. The Pro plan gives you unlimited file uploads and advanced permissions.\n\nThe AI features they've added are genuinely useful too. I use the AI writing assistant to help draft deal descriptions and the database automations save hours of manual work.\n\nMy referral link gives you 3 months of Pro completely free. After that, it's $10/month — but honestly, you'll wonder how you lived without it.",
+      creditType: "3 months free for you, $5 credit per month for me",
+      creditValueUser: 30,
+      creditValueOperator: 15,
+      imageEmoji: "📝",
+      tags: JSON.stringify(["productivity", "software", "notion", "workspace"]),
+      featured: false,
+      status: "active",
+      source: "manual",
+      clickCount: 178,
+    },
+    {
+      title: "YETI Rambler 36oz — $10 Off First Order",
+      slug: "yeti-rambler-referral",
+      storeName: "YETI",
+      storeUrl: "https://www.yeti.com",
+      referralUrl: "https://www.yeti.com/?ref=RHUB10",
+      referralCode: "RHUB10",
+      categoryId: categories[4].id,
+      descriptionShort: "Take $10 off your first YETI order — the Rambler 36oz keeps drinks cold for 24+ hours.",
+      descriptionLong: "I own way too many YETI products at this point, but the 36oz Rambler is the one I use every single day. Whether it's coffee in the morning or ice water on the golf course, this thing performs.\n\nThe DuraCoat color finish doesn't peel or crack — I've had mine for two years and it still looks new. The MagSlider lid is leak-proof enough for a golf bag or truck cup holder.\n\nFirst-time YETI customers get $10 off through my referral link. It works on anything — coolers, drinkware, bags, all of it.",
+      creditType: "$10 off for you, $10 credit for me",
+      creditValueUser: 10,
+      creditValueOperator: 10,
+      imageEmoji: "🧊",
+      tags: JSON.stringify(["yeti", "drinkware", "coolers", "outdoor"]),
+      featured: false,
+      status: "active",
+      source: "manual",
+      clickCount: 94,
+    },
+    {
+      title: "Vortex Optics — 15% Off Binoculars & Scopes",
+      slug: "vortex-optics-referral",
+      storeName: "Vortex Optics",
+      storeUrl: "https://www.vortexoptics.com",
+      referralUrl: "https://www.vortexoptics.com/?ref=RHUB15",
+      referralCode: "RHUB15",
+      categoryId: categories[0].id,
+      descriptionShort: "Get 15% off Vortex binoculars and riflescopes — lifetime warranty included.",
+      descriptionLong: "Vortex makes the best optics for the money, period. Their VIP warranty is unconditional and lifetime — if it breaks for any reason, they fix or replace it. No questions asked.\n\nI run a Vortex Viper PST Gen II on my hunting rifle and Diamondback HD binos for scouting. Both have been flawless through Texas heat and rain.\n\nNew customers get 15% off through my referral link. This works across their entire catalog — binoculars, riflescopes, spotting scopes, and red dots.",
+      creditType: "15% off for you, 10% commission for me",
+      creditValueUser: 75,
+      creditValueOperator: 50,
+      imageEmoji: "🔭",
+      tags: JSON.stringify(["hunting", "optics", "binoculars", "scopes", "vortex"]),
+      featured: false,
+      status: "active",
+      source: "manual",
+      clickCount: 67,
+      expiresAt: new Date("2026-04-15"),
+    },
+  ];
+
+  for (const deal of deals) {
+    await prisma.deal.upsert({
+      where: { slug: deal.slug },
+      update: {},
+      create: deal,
+    });
+  }
+
+  await prisma.siteSettings.upsert({
+    where: { id: "default" },
+    update: {},
+    create: {
+      blogTitle: "ReferralHub",
+      tagline: "Hand-picked deals from products I personally use",
+      aboutContent: "I'm a Texas-based outdoor enthusiast, tech nerd, and deal hunter. I started ReferralHub to share the referral deals and affiliate links for products I actually own and use every day.\n\nFrom golf simulators in my garage to the smart thermostat on my wall — if it's on this site, it's something I've personally vetted. No random coupon dumps, no sponsored posts from brands I've never heard of. Just honest recommendations with transparent referral links.\n\nWhen you use a link on this site, you usually get a discount or bonus, and I earn a small credit or commission. It's a win-win, and I appreciate every click.",
+      operatorName: "The ReferralHub Operator",
+      operatorEmail: "hello@referralhub.com",
+    },
+  });
+
+  console.log("Seed complete!");
+}
+
+main()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });

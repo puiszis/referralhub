@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  description String?
+  sortOrder   Int      @default(0)
+  iconEmoji   String   @default("📦")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deals       Deal[]
+}
+
+model Deal {
+  id                 String      @id @default(uuid())
+  title              String
+  slug               String      @unique
+  storeName          String
+  storeUrl           String?
+  referralUrl        String
+  referralCode       String?
+  categoryId         String
+  category           Category    @relation(fields: [categoryId], references: [id])
+  descriptionShort   String
+  descriptionLong    String?
+  creditType         String?
+  creditValueUser    Float       @default(0)
+  creditValueOperator Float      @default(0)
+  imageEmoji         String      @default("🔗")
+  imageUrl           String?
+  tags               String      @default("[]")
+  featured           Boolean     @default(false)
+  status             String      @default("draft")
+  dateAdded          DateTime    @default(now())
+  dateModified       DateTime    @updatedAt
+  expiresAt          DateTime?
+  clickCount         Int         @default(0)
+  source             String      @default("manual")
+  notes              String?
+  clicks             Click[]
+  linkChecks         LinkCheck[]
+}
+
+model Click {
+  id          String   @id @default(uuid())
+  dealId      String
+  deal        Deal     @relation(fields: [dealId], references: [id], onDelete: Cascade)
+  clickedAt   DateTime @default(now())
+  referrerUrl String?
+  userAgent   String?
+  ipHash      String?
+  country     String?
+  deviceType  String?
+  sourcePage  String?
+}
+
+model LinkCheck {
+  id            String   @id @default(uuid())
+  dealId        String
+  deal          Deal     @relation(fields: [dealId], references: [id], onDelete: Cascade)
+  checkedAt     DateTime @default(now())
+  statusCode    Int?
+  responseTimeMs Int?
+  redirectChain String?
+  errorMessage  String?
+  isHealthy     Boolean  @default(true)
+}
+
+model SiteSettings {
+  id              String @id @default("default")
+  blogTitle       String @default("ReferralHub")
+  tagline         String @default("Hand-picked deals from products I personally use")
+  aboutContent    String @default("")
+  ftcDisclosure   String @default("This site contains referral links. When you use these links, I may earn a commission or credit at no additional cost to you. I only recommend products and services I personally use.")
+  operatorName    String @default("Admin")
+  operatorEmail   String @default("")
+  updatedAt       DateTime @updatedAt
+}
+
+model Newsletter {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+  active    Boolean  @default(true)
+}
