@@ -32,10 +32,12 @@ yarn-error.log*
 prisma/dev.db
 prisma/dev.db-journal
 prisma/dev.db-wal
-*.sql
 *.dump
 *.bak
 *.backup
+# allow prisma migration SQL, block raw DB dumps
+*.sql
+!prisma/migrations/**/*.sql
 
 # IDE
 .idea/

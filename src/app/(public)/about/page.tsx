@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import type { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "About | ReferralHub",
   description: "Learn about ReferralHub — who I am, why I curate deals, and our FTC disclosure.",
