@@ -37,7 +37,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div className="min-h-screen flex bg-earth-50">
       {/* Sidebar Overlay */}
       {sidebarOpen && (
-        <div className="fixed inset-0 bg-black/30 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />
+        <div className="fixed inset-0 bg-black/30 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} onKeyDown={(e) => e.key === "Escape" && setSidebarOpen(false)} role="button" tabIndex={0} aria-label="Close navigation" />
       )}
 
       {/* Sidebar */}
@@ -82,7 +82,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0">
         <header className="h-16 bg-white border-b border-earth-100 flex items-center px-6">
-          <button className="lg:hidden mr-4 text-earth-600" onClick={() => setSidebarOpen(true)}>
+          <button className="lg:hidden mr-4 text-earth-600" onClick={() => setSidebarOpen(true)} aria-label="Open navigation menu">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>

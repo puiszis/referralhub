@@ -28,7 +28,7 @@ model Deal {
   referralUrl        String
   referralCode       String?
   categoryId         String
-  category           Category    @relation(fields: [categoryId], references: [id])
+  category           Category    @relation(fields: [categoryId], references: [id], onDelete: Restrict)
   descriptionShort   String
   descriptionLong    String?
   creditType         String?
@@ -47,6 +47,10 @@ model Deal {
   notes              String?
   clicks             Click[]
   linkChecks         LinkCheck[]
+
+  @@index([categoryId])
+  @@index([status])
+  @@index([featured, status])
 }
 
 model Click {
@@ -60,6 +64,9 @@ model Click {
   country     String?
   deviceType  String?
   sourcePage  String?
+
+  @@index([dealId])
+  @@index([clickedAt])
 }
 
 model LinkCheck {
@@ -72,6 +79,8 @@ model LinkCheck {
   redirectChain String?
   errorMessage  String?
   isHealthy     Boolean  @default(true)
+
+  @@index([dealId])
 }
 
 model SiteSettings {

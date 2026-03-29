@@ -10,12 +10,13 @@ export default function EditDealPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/admin/deals")
-      .then((r) => r.json())
-      .then((deals) => {
-        const found = deals.find((d: { id: string }) => d.id === id);
-        setDeal(found || null);
+    fetch(`/api/admin/deals/${id}`)
+      .then((r) => {
+        if (!r.ok) throw new Error("Not found");
+        return r.json();
       })
+      .then(setDeal)
+      .catch(() => setDeal(null))
       .finally(() => setLoading(false));
   }, [id]);
 

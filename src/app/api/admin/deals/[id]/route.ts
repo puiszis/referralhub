@@ -3,6 +3,18 @@ import { requireAdmin } from "@/lib/admin-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { slugify } from "@/lib/utils";
 
+export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
+  const { error } = await requireAdmin();
+  if (error) return error;
+
+  const deal = await prisma.deal.findUnique({
+    where: { id: params.id },
+    include: { category: true },
+  });
+  if (!deal) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  return NextResponse.json(deal);
+}
+
 export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
   const { error } = await requireAdmin();
   if (error) return error;
@@ -25,7 +37,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
         creditValueUser: parseFloat(body.creditValueUser) || 0,
         creditValueOperator: parseFloat(body.creditValueOperator) || 0,
         imageEmoji: body.imageEmoji || "🔗",
-        imageUrl: body.imageUrl || null,
+        ...(body.imageUrl !== undefined && { imageUrl: body.imageUrl || null }),
         tags: JSON.stringify(body.tags || []),
         featured: body.featured || false,
         status: body.status || "draft",
@@ -37,6 +49,27 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     return NextResponse.json(deal);
   } catch (e: unknown) {
     const message = e instanceof Error ? e.message : "Failed to update deal";
+    return NextResponse.json({ error: message }, { status: 400 });
+  }
+}
+
+export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+  const { error } = await requireAdmin();
+  if (error) return error;
+
+  try {
+    const body = await request.json();
+    const data: Record<string, unknown> = {};
+    if (body.status !== undefined) data.status = body.status;
+    if (body.featured !== undefined) data.featured = body.featured;
+
+    const deal = await prisma.deal.update({
+      where: { id: params.id },
+      data,
+    });
+    return NextResponse.json(deal);
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : "Failed to patch deal";
     return NextResponse.json({ error: message }, { status: 400 });
   }
 }

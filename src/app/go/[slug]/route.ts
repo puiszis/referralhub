@@ -14,7 +14,7 @@ export async function GET(request: NextRequest, { params }: { params: { slug: st
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
 
   try {
-    await Promise.all([
+    await prisma.$transaction([
       prisma.click.create({
         data: {
           dealId: deal.id,

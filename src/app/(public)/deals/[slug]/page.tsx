@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { formatDate, daysUntil, parseTags } from "@/lib/utils";
 import DealCard from "@/components/DealCard";
 import ShareButtons from "@/components/ShareButtons";
@@ -55,21 +56,22 @@ export default async function DealDetailPage({ params }: Props) {
     brand: { "@type": "Brand", name: deal.storeName },
     offers: {
       "@type": "Offer",
-      url: `/go/${deal.slug}`,
+      url: `${process.env.NEXTAUTH_URL || "https://referralhub.com"}/go/${deal.slug}`,
       priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
       ...(deal.expiresAt && { validThrough: new Date(deal.expiresAt).toISOString() }),
     },
   };
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <article className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-sm text-earth-400 mb-6">
-          <a href="/" className="hover:text-earth-600">Deals</a>
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-earth-400 mb-6">
+          <Link href="/" className="hover:text-earth-600">Deals</Link>
           <span>/</span>
-          <a href={`/category/${deal.category.slug}`} className="hover:text-earth-600">{deal.category.name}</a>
+          <Link href={`/category/${deal.category.slug}`} className="hover:text-earth-600">{deal.category.name}</Link>
           <span>/</span>
           <span className="text-earth-600">{deal.title}</span>
         </nav>
@@ -90,7 +92,7 @@ export default async function DealDetailPage({ params }: Props) {
             </div>
 
             {/* Editorial Description */}
-            <div className="prose prose-earth max-w-none mb-8">
+            <div className="max-w-none mb-8 space-y-4">
               {deal.descriptionLong?.split("\n\n").map((paragraph, i) => (
                 <p key={i} className="text-earth-700 leading-relaxed text-[16px] mb-4">
                   {paragraph}

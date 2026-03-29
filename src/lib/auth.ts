@@ -26,5 +26,5 @@ export const authOptions: NextAuthOptions = {
   ],
   session: { strategy: "jwt" },
   pages: { signIn: "/admin/login" },
-  secret: process.env.NEXTAUTH_SECRET || "dev-secret-change-in-production",
+  secret: process.env.NEXTAUTH_SECRET || (process.env.NODE_ENV === "production" ? undefined : "dev-secret-change-in-production"),
 };

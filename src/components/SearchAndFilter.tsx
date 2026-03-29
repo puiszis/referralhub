@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 
 interface Category {
   id: string;
@@ -16,6 +16,7 @@ export default function SearchAndFilter({ categories }: { categories: Category[]
   const currentSearch = searchParams.get("q") || "";
   const currentSort = searchParams.get("sort") || "newest";
   const currentCategory = searchParams.get("category") || "";
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
   const updateParams = useCallback(
     (key: string, value: string) => {
@@ -30,6 +31,11 @@ export default function SearchAndFilter({ categories }: { categories: Category[]
     [router, searchParams]
   );
 
+  const handleSearchChange = (value: string) => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => updateParams("q", value), 300);
+  };
+
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row gap-3">
@@ -41,7 +47,7 @@ export default function SearchAndFilter({ categories }: { categories: Category[]
             type="text"
             placeholder="Search deals, stores, tags..."
             defaultValue={currentSearch}
-            onChange={(e) => updateParams("q", e.target.value)}
+            onChange={(e) => handleSearchChange(e.target.value)}
             className="input-field pl-10"
           />
         </div>

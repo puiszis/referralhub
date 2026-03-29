@@ -32,18 +32,26 @@ export default function DealsManager() {
 
   const toggleStatus = async (deal: Deal) => {
     const newStatus = deal.status === "active" ? "paused" : "active";
-    await fetch(`/api/admin/deals/${deal.id}`, {
-      method: "PUT",
+    const res = await fetch(`/api/admin/deals/${deal.id}`, {
+      method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...deal, status: newStatus, categoryId: undefined, category: undefined }),
+      body: JSON.stringify({ status: newStatus }),
     });
-    setDeals(deals.map((d) => (d.id === deal.id ? { ...d, status: newStatus } : d)));
+    if (res.ok) {
+      setDeals(deals.map((d) => (d.id === deal.id ? { ...d, status: newStatus } : d)));
+    } else {
+      alert("Failed to update deal status");
+    }
   };
 
   const deleteDeal = async (id: string) => {
     if (!confirm("Are you sure you want to delete this deal?")) return;
-    await fetch(`/api/admin/deals/${id}`, { method: "DELETE" });
-    setDeals(deals.filter((d) => d.id !== id));
+    const res = await fetch(`/api/admin/deals/${id}`, { method: "DELETE" });
+    if (res.ok) {
+      setDeals(deals.filter((d) => d.id !== id));
+    } else {
+      alert("Failed to delete deal");
+    }
   };
 
   const exportDeals = async () => {

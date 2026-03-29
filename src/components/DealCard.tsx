@@ -26,7 +26,7 @@ export default function DealCard({ deal }: DealCardProps) {
     <Link href={`/deals/${deal.slug}`} className="deal-card flex flex-col h-full group">
       <div className="p-5 flex flex-col flex-1">
         <div className="flex items-start justify-between mb-3">
-          <span className="text-3xl" role="img">{deal.imageEmoji}</span>
+          <span className="text-3xl" role="img" aria-label={deal.storeName}>{deal.imageEmoji}</span>
           <div className="flex items-center gap-2">
             {deal.featured && (
               <span className="badge-green">Featured</span>

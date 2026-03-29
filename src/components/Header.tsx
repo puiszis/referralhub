@@ -40,6 +40,7 @@ export default function Header() {
           <nav className="md:hidden pb-4 flex flex-col gap-3 text-sm font-medium text-earth-600">
             <Link href="/" className="py-2 hover:text-earth-900" onClick={() => setMobileOpen(false)}>Deals</Link>
             <Link href="/about" className="py-2 hover:text-earth-900" onClick={() => setMobileOpen(false)}>About</Link>
+            <Link href="/admin" className="py-2 hover:text-earth-900 text-earth-400" onClick={() => setMobileOpen(false)}>Admin</Link>
           </nav>
         )}
       </div>

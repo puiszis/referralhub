@@ -45,6 +45,13 @@ export async function DELETE(request: NextRequest) {
   if (error) return error;
 
   const { id } = await request.json();
+  const dealCount = await prisma.deal.count({ where: { categoryId: id } });
+  if (dealCount > 0) {
+    return NextResponse.json(
+      { error: `Cannot delete category with ${dealCount} existing deal(s). Reassign or remove them first.` },
+      { status: 400 }
+    );
+  }
   await prisma.category.delete({ where: { id } });
   return NextResponse.json({ success: true });
 }
