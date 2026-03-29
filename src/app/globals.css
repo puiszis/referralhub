@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: #FAF6F1;
-  --foreground: #2A2115;
+  --background: #0D0719;
+  --foreground: #EDE5FF;
 }
 
 @layer base {
@@ -19,33 +19,45 @@
 
 @layer components {
   .deal-card {
-    @apply bg-white rounded-xl shadow-sm border border-earth-100 overflow-hidden transition-all duration-200 hover:shadow-md hover:-translate-y-0.5;
+    @apply bg-witch-900/60 rounded-xl border border-witch-700/40 overflow-hidden transition-all duration-200 hover:border-gold-500/50 hover:shadow-lg hover:shadow-witch-600/10 hover:-translate-y-0.5 backdrop-blur;
+  }
+  .blog-card {
+    @apply bg-witch-900/60 rounded-xl border border-witch-700/40 overflow-hidden transition-all duration-200 hover:border-gold-500/50 hover:shadow-lg hover:shadow-witch-600/10 hover:-translate-y-0.5 backdrop-blur;
   }
   .badge {
     @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium uppercase tracking-wider;
   }
-  .badge-green {
-    @apply badge bg-olive-100 text-olive-700;
+  .badge-gold {
+    @apply badge bg-gold-500/20 text-gold-400 border border-gold-500/30;
   }
-  .badge-amber {
-    @apply badge bg-amber-100 text-amber-700;
+  .badge-ember {
+    @apply badge bg-ember-500/20 text-ember-400 border border-ember-500/30;
   }
-  .badge-red {
-    @apply badge bg-red-100 text-red-700;
+  .badge-witch {
+    @apply badge bg-witch-600/30 text-witch-300 border border-witch-500/30;
   }
   .btn-primary {
-    @apply inline-flex items-center justify-center px-6 py-3 bg-olive-600 text-white font-medium rounded-lg hover:bg-olive-700 transition-colors;
+    @apply inline-flex items-center justify-center px-6 py-3 bg-gold-500 text-witch-950 font-semibold rounded-lg hover:bg-gold-400 transition-colors shadow-lg shadow-gold-500/20;
   }
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-6 py-3 bg-earth-100 text-earth-800 font-medium rounded-lg hover:bg-earth-200 transition-colors;
+    @apply inline-flex items-center justify-center px-6 py-3 bg-witch-800 text-witch-100 font-medium rounded-lg hover:bg-witch-700 transition-colors border border-witch-600/50;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center px-4 py-2 text-witch-300 font-medium rounded-lg hover:bg-witch-800/60 transition-colors;
   }
   .input-field {
-    @apply w-full px-4 py-2.5 border border-earth-200 rounded-lg bg-white text-earth-900 placeholder:text-earth-400 focus:outline-none focus:ring-2 focus:ring-olive-500 focus:border-transparent;
+    @apply w-full px-4 py-2.5 border border-witch-700/50 rounded-lg bg-witch-900/80 text-witch-100 placeholder:text-witch-500 focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:border-transparent;
   }
   .category-pill {
-    @apply inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium bg-white border border-earth-200 text-earth-700 hover:bg-earth-50 hover:border-earth-300 transition-colors cursor-pointer whitespace-nowrap;
+    @apply inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium bg-witch-900/60 border border-witch-700/40 text-witch-300 hover:bg-witch-800 hover:border-witch-600/50 transition-colors cursor-pointer whitespace-nowrap;
   }
   .category-pill-active {
-    @apply category-pill bg-olive-600 text-white border-olive-600 hover:bg-olive-700 hover:border-olive-700;
+    @apply inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium bg-gold-500/20 border border-gold-500/40 text-gold-400 cursor-pointer whitespace-nowrap;
+  }
+  .section-label {
+    @apply text-xs font-semibold uppercase tracking-widest text-witch-400;
+  }
+  .glass-panel {
+    @apply bg-witch-900/40 backdrop-blur-md border border-witch-700/30 rounded-2xl;
   }
 }

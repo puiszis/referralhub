@@ -7,22 +7,24 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-earth-100">
+    <header className="sticky top-0 z-50 bg-witch-950/90 backdrop-blur-lg border-b border-witch-800/50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-2xl">🔗</span>
-            <span className="font-serif text-xl font-bold text-earth-900">ReferralHub</span>
+          <Link href="/" className="flex items-center gap-2.5">
+            <span className="text-2xl">🔮</span>
+            <div>
+              <span className="font-serif text-lg font-bold text-gold-400">Bewitched Bashes</span>
+            </div>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-earth-600">
-            <Link href="/" className="hover:text-earth-900 transition-colors">Deals</Link>
-            <Link href="/about" className="hover:text-earth-900 transition-colors">About</Link>
-            <Link href="/admin" className="hover:text-earth-900 transition-colors text-earth-400">Admin</Link>
+          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-witch-300">
+            <Link href="/blog" className="hover:text-gold-400 transition-colors">Blog</Link>
+            <Link href="/deals" className="hover:text-gold-400 transition-colors">Party Deals</Link>
+            <Link href="/about" className="hover:text-gold-400 transition-colors">About</Link>
           </nav>
 
           <button
-            className="md:hidden p-2 text-earth-600"
+            className="md:hidden p-2 text-witch-300"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
@@ -37,10 +39,10 @@ export default function Header() {
         </div>
 
         {mobileOpen && (
-          <nav className="md:hidden pb-4 flex flex-col gap-3 text-sm font-medium text-earth-600">
-            <Link href="/" className="py-2 hover:text-earth-900" onClick={() => setMobileOpen(false)}>Deals</Link>
-            <Link href="/about" className="py-2 hover:text-earth-900" onClick={() => setMobileOpen(false)}>About</Link>
-            <Link href="/admin" className="py-2 hover:text-earth-900 text-earth-400" onClick={() => setMobileOpen(false)}>Admin</Link>
+          <nav className="md:hidden pb-4 flex flex-col gap-3 text-sm font-medium text-witch-300">
+            <Link href="/blog" className="py-2 hover:text-gold-400" onClick={() => setMobileOpen(false)}>Blog</Link>
+            <Link href="/deals" className="py-2 hover:text-gold-400" onClick={() => setMobileOpen(false)}>Party Deals</Link>
+            <Link href="/about" className="py-2 hover:text-gold-400" onClick={() => setMobileOpen(false)}>About</Link>
           </nav>
         )}
       </div>

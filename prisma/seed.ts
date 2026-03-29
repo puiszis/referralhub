@@ -3,215 +3,375 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
+  // Categories
   const categories = await Promise.all([
     prisma.category.upsert({
-      where: { slug: "outdoor-gear" },
+      where: { slug: "decorations" },
       update: {},
-      create: { name: "Outdoor Gear", slug: "outdoor-gear", description: "Golf simulators, hunting equipment, and outdoor recreation gear.", iconEmoji: "🏕️", sortOrder: 1 },
+      create: { name: "Decorations", slug: "decorations", description: "Balloons, banners, backdrops, and themed decor to transform any space.", iconEmoji: "🎃", sortOrder: 1 },
     }),
     prisma.category.upsert({
-      where: { slug: "home-products" },
+      where: { slug: "tableware" },
       update: {},
-      create: { name: "Home Products", slug: "home-products", description: "Smart home devices, furniture, kitchen appliances, and more.", iconEmoji: "🏠", sortOrder: 2 },
+      create: { name: "Tableware", slug: "tableware", description: "Plates, cups, napkins, and tablescape essentials for every theme.", iconEmoji: "🍽️", sortOrder: 2 },
     }),
     prisma.category.upsert({
-      where: { slug: "tech" },
+      where: { slug: "costumes" },
       update: {},
-      create: { name: "Tech", slug: "tech", description: "Gadgets, software, and technology deals.", iconEmoji: "💻", sortOrder: 3 },
+      create: { name: "Costumes & Dress-Up", slug: "costumes", description: "Costumes, masks, props, and dress-up accessories for hosts and guests.", iconEmoji: "🧙", sortOrder: 3 },
     }),
     prisma.category.upsert({
-      where: { slug: "finance" },
+      where: { slug: "food-drink" },
       update: {},
-      create: { name: "Finance", slug: "finance", description: "Credit cards, banking bonuses, and financial tools.", iconEmoji: "💰", sortOrder: 4 },
+      create: { name: "Food & Drink", slug: "food-drink", description: "Baking supplies, candy, drink dispensers, and themed food picks.", iconEmoji: "🧁", sortOrder: 4 },
     }),
     prisma.category.upsert({
-      where: { slug: "lifestyle" },
+      where: { slug: "lighting-effects" },
       update: {},
-      create: { name: "Lifestyle", slug: "lifestyle", description: "Fitness, food, travel, and everyday lifestyle deals.", iconEmoji: "✨", sortOrder: 5 },
+      create: { name: "Lighting & Effects", slug: "lighting-effects", description: "LED lights, fog machines, projectors, and atmospheric effects.", iconEmoji: "✨", sortOrder: 5 },
+    }),
+    prisma.category.upsert({
+      where: { slug: "party-games" },
+      update: {},
+      create: { name: "Party Games", slug: "party-games", description: "Games, activities, and entertainment for all ages.", iconEmoji: "🎲", sortOrder: 6 },
+    }),
+    prisma.category.upsert({
+      where: { slug: "invitations" },
+      update: {},
+      create: { name: "Invitations & Stationery", slug: "invitations", description: "Printable invites, thank-you cards, and party signage.", iconEmoji: "💌", sortOrder: 7 },
     }),
   ]);
 
+  // Deals
   const deals = [
     {
-      title: "Garmin Fenix 8 — $50 Off Your First Order",
-      slug: "garmin-fenix-8-referral",
-      storeName: "Garmin",
-      storeUrl: "https://www.garmin.com",
-      referralUrl: "https://www.garmin.com/?ref=Rhub50",
-      referralCode: "RHUB50",
+      title: "Amazon Party Supplies — 15% Off First Subscribe & Save",
+      slug: "amazon-party-supplies-subscribe-save",
+      storeName: "Amazon",
+      storeUrl: "https://www.amazon.com",
+      referralUrl: "https://www.amazon.com/?tag=bewitched-20",
+      referralCode: "bewitched-20",
       categoryId: categories[0].id,
-      descriptionShort: "Get $50 off the Garmin Fenix 8 smartwatch — built for the outdoors with solar charging and topo maps.",
-      descriptionLong: "The Garmin Fenix 8 is the ultimate outdoor smartwatch. With solar charging that lasts weeks, built-in topographic maps, and multi-band GPS accuracy, it's the watch I wear every single day — whether I'm on the golf course or out in the field.\n\nI've been using Garmin watches for over five years now, and the Fenix 8 is by far the best they've made. The battery life alone is a game-changer. I get about 3 weeks between charges with normal use, and the solar panel extends that even further.\n\nUse my referral link to get $50 off your purchase. Garmin's referral program gives you the discount at checkout automatically.",
-      creditType: "$50 off for you, $25 credit for me",
-      creditValueUser: 50,
-      creditValueOperator: 25,
-      imageEmoji: "⌚",
-      tags: JSON.stringify(["garmin", "watches", "outdoor", "gps", "solar"]),
-      featured: true,
-      status: "active",
-      source: "manual",
-      clickCount: 147,
+      descriptionShort: "Get 15% off party decorations, tableware, and more with Subscribe & Save on your first delivery.",
+      descriptionLong: "Amazon's Subscribe & Save is a hidden gem for party planners who host frequently. Set up recurring deliveries of plates, napkins, balloons, and streamers — and get 15% off when you have 5+ items in a single delivery.\n\nI use this for bulk basics: solid color plates, napkins, and balloon packs. The prices beat party stores every time, and it shows up at your door.\n\nUse my referral link to shop and I'll earn a small commission on qualifying purchases.",
+      creditType: "15% off for you, affiliate commission for us",
+      creditValueUser: 15, creditValueOperator: 5, imageEmoji: "📦",
+      tags: JSON.stringify(["amazon", "bulk", "decorations", "tableware"]),
+      featured: true, status: "active", source: "manual", clickCount: 234,
     },
     {
-      title: "Traeger Ironwood XL — Free Shipping + Bonus Pellets",
-      slug: "traeger-ironwood-xl-referral",
-      storeName: "Traeger",
-      storeUrl: "https://www.traeger.com",
-      referralUrl: "https://www.traeger.com/?ref=RHUB",
-      referralCode: "RHUB",
+      title: "Oriental Trading — Free Shipping on $49+",
+      slug: "oriental-trading-free-shipping",
+      storeName: "Oriental Trading",
+      storeUrl: "https://www.orientaltrading.com",
+      referralUrl: "https://www.orientaltrading.com/?ref=bewitched",
+      referralCode: "bewitched",
       categoryId: categories[0].id,
-      descriptionShort: "Score free shipping and a bonus bag of pellets with the Traeger Ironwood XL smart grill.",
-      descriptionLong: "If you're serious about outdoor cooking, the Traeger Ironwood XL is the grill to get. WiFIRE technology lets you control temperature from your phone, and the D2 drivetrain gives you consistent smoke flavor every time.\n\nI've cooked everything from brisket to pizza on mine, and it handles it all. The super smoke mode adds extra flavor at lower temperatures — perfect for Texas-style BBQ.\n\nThrough my referral link, you'll get free shipping (normally $100+) and Traeger throws in a free bag of their signature hardwood pellets.",
-      creditType: "Free shipping for you, $50 credit for me",
-      creditValueUser: 100,
-      creditValueOperator: 50,
-      imageEmoji: "🔥",
-      tags: JSON.stringify(["traeger", "grills", "bbq", "outdoor-cooking", "smoking"]),
-      featured: true,
-      status: "active",
-      source: "manual",
-      clickCount: 89,
+      descriptionShort: "The ultimate bulk party supply store — free shipping when you spend $49 or more.",
+      descriptionLong: "Oriental Trading is THE place for bulk party supplies at crazy low prices. We're talking 72-count balloon packs for under $10, themed tableware sets, and decorations for literally every party theme imaginable.\n\nTheir Halloween and holiday collections are unmatched. I order from them for every party I plan — the quality-to-price ratio can't be beat for disposable party supplies.\n\nFree shipping kicks in at $49, which is easy to hit when you're stocking up for a bash.",
+      creditType: "Free shipping on $49+, affiliate commission for us",
+      creditValueUser: 10, creditValueOperator: 8, imageEmoji: "🎉",
+      tags: JSON.stringify(["bulk", "decorations", "tableware", "oriental-trading"]),
+      featured: true, status: "active", source: "manual", clickCount: 187,
     },
     {
-      title: "SkyTrak+ Golf Simulator — $100 Off Launch Monitor",
-      slug: "skytrak-plus-golf-simulator",
-      storeName: "SkyTrak",
-      storeUrl: "https://www.skytrak.com",
-      referralUrl: "https://www.skytrak.com/?ref=RHUB100",
-      referralCode: "RHUB100",
-      categoryId: categories[0].id,
-      descriptionShort: "Get $100 off the SkyTrak+ launch monitor — the best home golf simulator under $3,000.",
-      descriptionLong: "The SkyTrak+ is what I use in my garage golf setup, and it's been worth every penny. Accurate ball tracking, realistic course play, and it connects to all the major simulation software.\n\nI compared it against the Mevo+ and the Flightscope — for the price, the SkyTrak+ can't be beat for a home setup. The accuracy is within 1-2 yards of my on-course numbers.\n\nMy referral link gets you $100 off the launch monitor. They also run seasonal bundle deals where you get the software subscription included.",
-      creditType: "$100 off for you, $50 credit for me",
-      creditValueUser: 100,
-      creditValueOperator: 50,
-      imageEmoji: "⛳",
-      tags: JSON.stringify(["golf", "simulator", "launch-monitor", "indoor-golf"]),
-      featured: true,
-      status: "active",
-      source: "manual",
-      clickCount: 213,
-    },
-    {
-      title: "Amex Platinum Card — 150,000 Bonus Points",
-      slug: "amex-platinum-150k-bonus",
-      storeName: "American Express",
-      storeUrl: "https://www.americanexpress.com",
-      referralUrl: "https://americanexpress.com/refer/RHUB",
-      referralCode: "RHUB",
-      categoryId: categories[3].id,
-      descriptionShort: "Earn 150,000 Membership Rewards points with the Amex Platinum — one of the best welcome bonuses available.",
-      descriptionLong: "The Amex Platinum is my daily driver card. Between the airport lounge access, the $200 airline fee credit, the $200 Uber credit, and the $240 entertainment credit, the $695 annual fee practically pays for itself.\n\nThe current welcome bonus of 150,000 points after spending $8,000 in 6 months is one of the highest offers they've had. That's worth at least $1,500 in travel through Amex's portal, or more if you transfer to airline partners.\n\nUsing my referral link ensures you get the full 150K offer. I earn 30,000 points when you're approved — it's a win-win.",
-      creditType: "150K points for you, 30K points for me",
-      creditValueUser: 1500,
-      creditValueOperator: 300,
-      imageEmoji: "💳",
-      tags: JSON.stringify(["credit-card", "amex", "travel", "points", "lounge-access"]),
-      featured: true,
-      status: "active",
-      source: "manual",
-      clickCount: 342,
-    },
-    {
-      title: "Ecobee Smart Thermostat Premium — $20 Referral Credit",
-      slug: "ecobee-smart-thermostat-referral",
-      storeName: "Ecobee",
-      storeUrl: "https://www.ecobee.com",
-      referralUrl: "https://www.ecobee.com/?ref=RHUB20",
-      referralCode: "RHUB20",
-      categoryId: categories[1].id,
-      descriptionShort: "Save $20 on the Ecobee Smart Thermostat Premium with built-in air quality monitoring.",
-      descriptionLong: "I switched from a Nest to the Ecobee Premium last year and haven't looked back. The built-in air quality sensor is great for Texas summers when you want to know when to keep windows closed.\n\nThe SmartSensor for rooms means it actually heats/cools based on the rooms you're using, not just where the thermostat is mounted. This alone saved me about 15% on my electric bill.\n\nGrab $20 off through my referral link. The thermostat installs in about 30 minutes if you have a C-wire.",
-      creditType: "$20 off for you, $20 credit for me",
-      creditValueUser: 20,
-      creditValueOperator: 20,
-      imageEmoji: "🌡️",
-      tags: JSON.stringify(["smart-home", "thermostat", "energy", "ecobee"]),
-      featured: false,
-      status: "active",
-      source: "manual",
-      clickCount: 56,
-    },
-    {
-      title: "Notion — Free Pro Plan for 3 Months",
-      slug: "notion-pro-plan-referral",
-      storeName: "Notion",
-      storeUrl: "https://www.notion.so",
-      referralUrl: "https://www.notion.so/?ref=RHUB",
-      referralCode: "RHUB",
+      title: "Spirit Halloween — $10 Off $50+ Purchase",
+      slug: "spirit-halloween-10-off",
+      storeName: "Spirit Halloween",
+      storeUrl: "https://www.spirithalloween.com",
+      referralUrl: "https://www.spirithalloween.com/?ref=bewitched10",
+      referralCode: "bewitched10",
       categoryId: categories[2].id,
-      descriptionShort: "Get 3 months of Notion Pro free — the all-in-one workspace for notes, docs, and project management.",
-      descriptionLong: "Notion is how I organize literally everything — this blog included. Deal tracking, content calendars, personal notes, you name it. The Pro plan gives you unlimited file uploads and advanced permissions.\n\nThe AI features they've added are genuinely useful too. I use the AI writing assistant to help draft deal descriptions and the database automations save hours of manual work.\n\nMy referral link gives you 3 months of Pro completely free. After that, it's $10/month — but honestly, you'll wonder how you lived without it.",
-      creditType: "3 months free for you, $5 credit per month for me",
-      creditValueUser: 30,
-      creditValueOperator: 15,
-      imageEmoji: "📝",
-      tags: JSON.stringify(["productivity", "software", "notion", "workspace"]),
-      featured: false,
-      status: "active",
-      source: "manual",
-      clickCount: 178,
+      descriptionShort: "Save $10 on costumes, animatronics, and Halloween decor when you spend $50+.",
+      descriptionLong: "Spirit Halloween is the seasonal king for a reason. Their animatronics are the centerpiece of any Halloween party, and their costume selection is massive.\n\nI grab at least one new animatronic every year — they're the single best investment for a Halloween bash. Guests lose their minds over the motion-activated ones by the front door.\n\nUse my link for $10 off any purchase over $50. Works on costumes, props, and decor.",
+      creditType: "$10 off $50+ for you, $5 credit for us",
+      creditValueUser: 10, creditValueOperator: 5, imageEmoji: "👻",
+      tags: JSON.stringify(["halloween", "costumes", "animatronics", "spirit"]),
+      featured: true, status: "active", source: "manual", clickCount: 312,
+      expiresAt: new Date("2026-11-01"),
     },
     {
-      title: "YETI Rambler 36oz — $10 Off First Order",
-      slug: "yeti-rambler-referral",
-      storeName: "YETI",
-      storeUrl: "https://www.yeti.com",
-      referralUrl: "https://www.yeti.com/?ref=RHUB10",
-      referralCode: "RHUB10",
-      categoryId: categories[4].id,
-      descriptionShort: "Take $10 off your first YETI order — the Rambler 36oz keeps drinks cold for 24+ hours.",
-      descriptionLong: "I own way too many YETI products at this point, but the 36oz Rambler is the one I use every single day. Whether it's coffee in the morning or ice water on the golf course, this thing performs.\n\nThe DuraCoat color finish doesn't peel or crack — I've had mine for two years and it still looks new. The MagSlider lid is leak-proof enough for a golf bag or truck cup holder.\n\nFirst-time YETI customers get $10 off through my referral link. It works on anything — coolers, drinkware, bags, all of it.",
-      creditType: "$10 off for you, $10 credit for me",
-      creditValueUser: 10,
-      creditValueOperator: 10,
-      imageEmoji: "🧊",
-      tags: JSON.stringify(["yeti", "drinkware", "coolers", "outdoor"]),
-      featured: false,
-      status: "active",
-      source: "manual",
-      clickCount: 94,
-    },
-    {
-      title: "Vortex Optics — 15% Off Binoculars & Scopes",
-      slug: "vortex-optics-referral",
-      storeName: "Vortex Optics",
-      storeUrl: "https://www.vortexoptics.com",
-      referralUrl: "https://www.vortexoptics.com/?ref=RHUB15",
-      referralCode: "RHUB15",
+      title: "Etsy — Unique Handmade Party Decor",
+      slug: "etsy-handmade-party-decor",
+      storeName: "Etsy",
+      storeUrl: "https://www.etsy.com",
+      referralUrl: "https://www.etsy.com/?ref=bewitched",
+      referralCode: "bewitched",
       categoryId: categories[0].id,
-      descriptionShort: "Get 15% off Vortex binoculars and riflescopes — lifetime warranty included.",
-      descriptionLong: "Vortex makes the best optics for the money, period. Their VIP warranty is unconditional and lifetime — if it breaks for any reason, they fix or replace it. No questions asked.\n\nI run a Vortex Viper PST Gen II on my hunting rifle and Diamondback HD binos for scouting. Both have been flawless through Texas heat and rain.\n\nNew customers get 15% off through my referral link. This works across their entire catalog — binoculars, riflescopes, spotting scopes, and red dots.",
-      creditType: "15% off for you, 10% commission for me",
-      creditValueUser: 75,
-      creditValueOperator: 50,
-      imageEmoji: "🔭",
-      tags: JSON.stringify(["hunting", "optics", "binoculars", "scopes", "vortex"]),
-      featured: false,
-      status: "active",
-      source: "manual",
-      clickCount: 67,
-      expiresAt: new Date("2026-04-15"),
+      descriptionShort: "Discover one-of-a-kind party decorations, custom banners, and handmade centerpieces on Etsy.",
+      descriptionLong: "For unique, Instagram-worthy party decor that nobody else will have, Etsy is unbeatable. Custom birthday banners, hand-painted cake toppers, and themed centerpieces that look like they cost 10x what you paid.\n\nI find my best tablescape pieces here — the personalized touches make a party feel special without a wedding-level budget.\n\nShop through my link and I'll earn a small referral bonus from Etsy.",
+      creditType: "Affiliate commission for us",
+      creditValueUser: 0, creditValueOperator: 4, imageEmoji: "🎨",
+      tags: JSON.stringify(["etsy", "handmade", "custom", "decorations", "banners"]),
+      featured: false, status: "active", source: "manual", clickCount: 156,
+    },
+    {
+      title: "Party City — BOGO 50% Off Balloons",
+      slug: "party-city-bogo-balloons",
+      storeName: "Party City",
+      storeUrl: "https://www.partycity.com",
+      referralUrl: "https://www.partycity.com/?ref=bewitched",
+      referralCode: "bewitched",
+      categoryId: categories[0].id,
+      descriptionShort: "Buy one get one 50% off all balloon bouquets and helium tanks at Party City.",
+      descriptionLong: "Party City's balloon deals are hard to beat, especially the BOGO 50% off that runs regularly. Their helium tanks are the most convenient option if you're doing your own balloon arches at home.\n\nPro tip: order their pre-made balloon bouquets for pickup — saves you the hassle of inflating and tying dozens of balloons yourself.\n\nGrab the deal through my link for the current BOGO offer.",
+      creditType: "BOGO 50% off for you, affiliate commission for us",
+      creditValueUser: 25, creditValueOperator: 3, imageEmoji: "🎈",
+      tags: JSON.stringify(["balloons", "party-city", "helium", "bogo"]),
+      featured: false, status: "active", source: "manual", clickCount: 98,
+    },
+    {
+      title: "LITFAD LED Fairy Lights — 20% Off First Order",
+      slug: "litfad-led-fairy-lights",
+      storeName: "LITFAD",
+      storeUrl: "https://www.litfad.com",
+      referralUrl: "https://www.litfad.com/?ref=bewitched20",
+      referralCode: "bewitched20",
+      categoryId: categories[4].id,
+      descriptionShort: "Gorgeous LED fairy lights, string lights, and neon signs — 20% off your first purchase.",
+      descriptionLong: "Lighting is the single biggest factor in party atmosphere, and LITFAD has some of the best decorative lighting I've found. Their fairy light curtains are stunning as photo backdrops, and the LED neon signs add instant personality to any setup.\n\nI use their warm white fairy light curtains for literally every party — they transform a basic room into something magical in 5 minutes.\n\n20% off your first order through my link.",
+      creditType: "20% off for you, $5 credit for us",
+      creditValueUser: 20, creditValueOperator: 5, imageEmoji: "💡",
+      tags: JSON.stringify(["lights", "fairy-lights", "led", "neon", "atmosphere"]),
+      featured: true, status: "active", source: "manual", clickCount: 203,
+    },
+    {
+      title: "Instacart — $10 Off First Grocery Delivery",
+      slug: "instacart-grocery-delivery",
+      storeName: "Instacart",
+      storeUrl: "https://www.instacart.com",
+      referralUrl: "https://www.instacart.com/?ref=bewitched",
+      referralCode: "bewitched",
+      categoryId: categories[3].id,
+      descriptionShort: "Get party snacks, drinks, and baking supplies delivered — $10 off your first order.",
+      descriptionLong: "When party day arrives and you realize you forgot the punch ingredients, Instacart saves the day. Same-day delivery of snacks, drinks, produce, baking supplies — everything you need for the food table.\n\nI use it for every party to grab last-minute items without leaving the house during setup time. The $10 off first order makes it a no-brainer.\n\nSign up through my link and we both get credit.",
+      creditType: "$10 off for you, $10 credit for us",
+      creditValueUser: 10, creditValueOperator: 10, imageEmoji: "🛒",
+      tags: JSON.stringify(["groceries", "delivery", "food", "snacks", "drinks"]),
+      featured: false, status: "active", source: "manual", clickCount: 145,
+    },
+    {
+      title: "Canva Pro — Free 30-Day Trial for Party Invites",
+      slug: "canva-pro-party-invites",
+      storeName: "Canva",
+      storeUrl: "https://www.canva.com",
+      referralUrl: "https://www.canva.com/?ref=bewitched",
+      referralCode: "bewitched",
+      categoryId: categories[6].id,
+      descriptionShort: "Design gorgeous party invitations, menus, and signage with Canva Pro — free for 30 days.",
+      descriptionLong: "Canva Pro is my secret weapon for party invitations, table signs, menus, and social media posts. The party-themed templates are incredible — you can have a professional-looking invite designed in 10 minutes.\n\nThe free trial gives you full access to premium templates, stock photos, and the background remover tool. Perfect for designing a full suite of party stationery.\n\nSign up through my link for a 30-day free trial.",
+      creditType: "30-day free trial for you, referral credit for us",
+      creditValueUser: 13, creditValueOperator: 7, imageEmoji: "✏️",
+      tags: JSON.stringify(["invitations", "design", "canva", "stationery", "diy"]),
+      featured: false, status: "active", source: "manual", clickCount: 89,
     },
   ];
 
   for (const deal of deals) {
-    await prisma.deal.upsert({
-      where: { slug: deal.slug },
-      update: {},
-      create: deal,
-    });
+    await prisma.deal.upsert({ where: { slug: deal.slug }, update: {}, create: deal });
   }
 
+  // Blog Posts
+  const blogPosts = [
+    {
+      title: "The Ultimate Halloween Bash — Everything You Need",
+      slug: "ultimate-halloween-bash-guide",
+      excerpt: "A complete guide to throwing a spooky, memorable Halloween party — from fog machines to witch's punch, every detail covered.",
+      coverEmoji: "🎃",
+      status: "published",
+      publishedAt: new Date("2026-03-15"),
+      tags: JSON.stringify(["halloween", "party-planning", "decorations", "complete-guide"]),
+      dealSlugs: JSON.stringify(["spirit-halloween-10-off", "litfad-led-fairy-lights", "amazon-party-supplies-subscribe-save", "instacart-grocery-delivery"]),
+      content: `Every unforgettable Halloween party starts with three things: atmosphere, food, and one great scare. This guide covers all of it.
+
+## Setting the Scene
+
+The single most impactful purchase for a Halloween party is a fog machine. A $30 fog machine transforms your entire space from "oh, there are some cobwebs" to "I'm genuinely not sure what's lurking in that corner." Pair it with purple or green LED lights and you're 90% of the way there.
+
+### Must-Have Decorations
+
+- Fog machine (the absolute #1 priority)
+- LED string lights in purple, orange, or green
+- Fake cobwebs (stretch them thin — less is more)
+- One or two statement animatronics by the entrance
+- Jack-o-lanterns (real or LED — both work great)
+- A skeleton or two posed in unexpected places
+
+## The Witch's Punch Bowl
+
+This is the crowd-pleaser that takes 5 minutes to make. Combine:
+
+- 2 liters of ginger ale
+- 1 bottle of grape juice
+- A scoop of lime sherbet (it bubbles and looks magical)
+- Dry ice for fog effect (handle with tongs only!)
+
+### Snack Table Essentials
+
+Keep it simple with themed names for regular food:
+
+- "Mummy Dogs" — hot dogs wrapped in crescent dough
+- "Witch Finger Cookies" — sugar cookies shaped like fingers
+- "Monster Eye Deviled Eggs" — with olive slice "pupils"
+- A cheese board shaped like a coffin (seriously, it's easy)
+
+## The Scare Factor
+
+Plant one good scare. A motion-activated animatronic in a dark hallway or a friend hiding in a costume works every time. The anticipation is what makes it — let word spread that "something" is in the hallway.
+
+## Music & Ambiance
+
+Create a playlist that builds: start with moody instrumentals during arrival, transition to classic Halloween songs during dinner, then upbeat party music later. Spotify has great pre-made Halloween playlists.
+
+## Budget Breakdown
+
+A killer Halloween party for 20 people can be done for under $150:
+
+- Fog machine: $30
+- LED lights: $15
+- Decorations (bulk): $25
+- Food & drinks: $50
+- Costumes/props: $30
+
+The trick is buying bulk basics from Amazon or Oriental Trading and splurging on 1-2 statement pieces that create the "wow" factor.`,
+      seoTitle: "Ultimate Halloween Party Guide 2026 | Bewitched Bashes",
+      seoDescription: "Complete guide to throwing an unforgettable Halloween bash — decorations, food, drinks, and scare tactics on any budget.",
+    },
+    {
+      title: "Enchanted Garden Party on a Budget",
+      slug: "enchanted-garden-party-budget",
+      excerpt: "Transform your backyard into a fairy-tale garden party without breaking the bank — string lights, wildflowers, and smart shopping.",
+      coverEmoji: "🧚",
+      status: "published",
+      publishedAt: new Date("2026-03-20"),
+      tags: JSON.stringify(["garden-party", "budget", "spring", "outdoor"]),
+      dealSlugs: JSON.stringify(["litfad-led-fairy-lights", "etsy-handmade-party-decor", "canva-pro-party-invites", "oriental-trading-free-shipping"]),
+      content: `You don't need a Pinterest-perfect estate to throw an enchanted garden party. You need string lights, wildflowers, and a plan.
+
+## The Secret: Lighting Does All the Work
+
+Wrap fairy lights around everything — trees, fences, table legs, umbrellas. At dusk, those lights transform any backyard into something magical. This is the one area where I say invest a bit — good warm-white fairy lights with a timer will last you years of parties.
+
+## Flowers on a Budget
+
+- Grocery store flowers in mason jars beat expensive arrangements every time
+- Mix in greenery from your own yard (ferns, ivy, anything leafy)
+- Scatter petals on the table for instant elegance
+- Wildflower seed packets make great party favors (pennies each!)
+
+## Tablescape Essentials
+
+- Linen or burlap table runner (reusable for years)
+- Mix-and-match vintage plates from thrift stores ($1 each!)
+- Mason jars as cups with paper straws
+- Handmade place cards from Canva (free templates!)
+
+## Food & Drink
+
+Go with a grazing board aesthetic — it looks impressive but it's just arranged snacks:
+
+- Cheese, crackers, and fruit arranged on wooden boards
+- Cucumber sandwiches cut into shapes
+- Lemonade in a glass dispenser with fresh herbs
+- A simple sheet cake decorated with edible flowers
+
+## Entertainment
+
+- Set up a flower crown-making station (wire + fake flowers from the craft store)
+- Lawn games: croquet, badminton, bocce ball
+- A Bluetooth speaker playing light acoustic or folk music
+- A polaroid photo station with a floral frame
+
+The whole party can cost under $100 if you shop smart and use what you already have.`,
+      seoTitle: "Enchanted Garden Party on a Budget | Bewitched Bashes",
+      seoDescription: "How to throw a magical garden party without breaking the bank — fairy lights, wildflowers, and smart shopping tips.",
+    },
+    {
+      title: "Kids' Birthday Party Playbook: Ages 5-10",
+      slug: "kids-birthday-party-playbook",
+      excerpt: "Everything you need to throw an epic kids' birthday party — themes, games, food, and crowd control for the 5-10 age group.",
+      coverEmoji: "🎂",
+      status: "published",
+      publishedAt: new Date("2026-03-25"),
+      tags: JSON.stringify(["kids", "birthday", "games", "themes"]),
+      dealSlugs: JSON.stringify(["amazon-party-supplies-subscribe-save", "party-city-bogo-balloons", "oriental-trading-free-shipping", "instacart-grocery-delivery"]),
+      content: `The 5-10 age group is the sweet spot for birthday parties. They're old enough to play games independently but young enough to be absolutely thrilled by a balloon arch. Here's the playbook.
+
+## Pick a Theme (But Keep It Simple)
+
+The best themes for this age group are ones that translate into easy decorations and games:
+
+- Dinosaurs (plastic dinos everywhere, excavation activity)
+- Superheroes (capes as party favors, obstacle course)
+- Unicorns/Rainbows (pastel everything, rainbow fruit skewers)
+- Pirates (treasure hunt, eye patches)
+- Space (glow sticks, constellation projector)
+
+## The Timeline That Works
+
+Here's the structure that prevents chaos — 2 hours total:
+
+- 0:00-0:15 — Arrival + free play
+- 0:15-0:45 — Organized game 1 + game 2
+- 0:45-1:15 — Food, cake, presents
+- 1:15-1:45 — Craft activity or free play
+- 1:45-2:00 — Party favors + pickup
+
+### Two hours. That's it. Trust me.
+
+## Games That Actually Work
+
+- Musical statues (easier to manage than chairs)
+- Scavenger hunt (prepare a simple list + small prizes)
+- Freeze dance (just needs a speaker)
+- Pin the tail on the [theme animal]
+- Relay races (for burning energy before food)
+
+## Food: Keep It Simple
+
+Kids don't care about your charcuterie skills. They want:
+
+- Pizza (order it — don't make it)
+- Fruit skewers (the only "healthy" thing they'll eat)
+- Juice boxes
+- The birthday cake
+
+That's it. Really. Save your elaborate snack spread for the adult parties.
+
+## The Party Favor Hack
+
+Skip the plastic junk bags. Instead, give each kid ONE good thing related to the theme:
+
+- Dinosaur party: a small dino figure
+- Art party: a set of markers
+- Space party: a glow stick bundle
+
+It costs the same as a bag of junk but kids actually keep and use it.`,
+      seoTitle: "Kids Birthday Party Guide Ages 5-10 | Bewitched Bashes",
+      seoDescription: "The complete playbook for kids' birthday parties — themes, timed schedules, games, and the food they'll actually eat.",
+    },
+  ];
+
+  for (const post of blogPosts) {
+    await prisma.blogPost.upsert({ where: { slug: post.slug }, update: {}, create: post });
+  }
+
+  // Site Settings
   await prisma.siteSettings.upsert({
     where: { id: "default" },
-    update: {},
+    update: {
+      blogTitle: "Bewitched Bashes",
+      tagline: "Spellbinding party planning & curated supplies",
+      aboutContent: "We believe every celebration deserves a touch of magic. Bewitched Bashes is your one-stop grimoire for party planning inspiration, themed decoration guides, and hand-picked supply links that make entertaining effortless.\n\nFrom spooky Halloween soirées to enchanted garden parties, we curate the best deals and share step-by-step guides so you can focus on what matters — making memories with the people you love.\n\nEvery referral link on this site is for a product or service we genuinely recommend. When you shop through our links, we earn a small commission at no extra cost to you, which helps us keep the cauldron bubbling with fresh content.",
+      operatorName: "The Bewitched Bashes Team",
+      operatorEmail: "hello@bewitchedbashes.com",
+    },
     create: {
-      blogTitle: "ReferralHub",
-      tagline: "Hand-picked deals from products I personally use",
-      aboutContent: "I'm a Texas-based outdoor enthusiast, tech nerd, and deal hunter. I started ReferralHub to share the referral deals and affiliate links for products I actually own and use every day.\n\nFrom golf simulators in my garage to the smart thermostat on my wall — if it's on this site, it's something I've personally vetted. No random coupon dumps, no sponsored posts from brands I've never heard of. Just honest recommendations with transparent referral links.\n\nWhen you use a link on this site, you usually get a discount or bonus, and I earn a small credit or commission. It's a win-win, and I appreciate every click.",
-      operatorName: "The ReferralHub Operator",
-      operatorEmail: "hello@referralhub.com",
+      blogTitle: "Bewitched Bashes",
+      tagline: "Spellbinding party planning & curated supplies",
+      aboutContent: "We believe every celebration deserves a touch of magic.",
+      operatorName: "The Bewitched Bashes Team",
+      operatorEmail: "hello@bewitchedbashes.com",
     },
   });
 
@@ -219,10 +379,5 @@ async function main() {
 }
 
 main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+  .catch((e) => { console.error(e); process.exit(1); })
+  .finally(async () => { await prisma.$disconnect(); });
